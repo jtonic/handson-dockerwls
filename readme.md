@@ -11,6 +11,14 @@
         
     **Note:** See the https://github.com/oracle/docker-images/tree/master/OracleWebLogic for how to install and run the WL container
 
+1. Change the 'weblogic' admin user password
+
+    1. create a file named password.secret and type the password. Mark it as git ignore.
+
+    1. run the sh script to change the 'weblogic' admin user  password
+    
+            sh change-password.sh
+        
 1. run the sh script to setup the JMS and deploy the war application
 
         sh setup_wls.sh
@@ -39,11 +47,29 @@
     
         docker-machine env dev | grep DOCKER_HOST
 
+* In case the weblogic admin password was messedup do the following:
+    
+    * Connect to wl docker container in bash moe
+    
+            docker -ti wlsadmin bash
+            
+    * Follow the steps shown at https://oracle-base.com/articles/11g/reset-the-adminserver-password-in-weblogic-11g-and-12c 
+        but:
+        
+        * kill the wls process (find the process with jps -vl  and kill it with kill -9 <pid>)
+        
+        * run recover password util with the -cp flag
+        
+                java -cp /u01/oracle/wlserver/server/lib/weblogic.jar:$CLASSPATH weblogic.security.utils.AdminAccount weblogic <password> .
+                
+        * start the weblogic
+        
 
 ##### Many thanks to:
 * Bruno Borges (https://github.com/brunoborges) who (among other good thing) created the docker config for Oracle products (DB, WL, java 8 server)
 
 ##### Tasks
+* Take the password from the password.sercret
 * Setup the datasource and connect it to the docker-based Oracle DB
 * Check the JMS configuration using the SimpleServler and @Inject
 * Create a simple JPA entity and a persistence example

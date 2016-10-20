@@ -1,3 +1,5 @@
+from read_password import read
+
 execfile("connect.py")
 
 # =====================================
@@ -6,10 +8,14 @@ execfile("connect.py")
 domain_name = os.environ.get("DOMAIN_NAME", "base_domain")
 print "Domain name: %s" % domain_name
 
-cd('/SecurityConfiguration/' + domain_name + '/Realms/myrealm/AuthenticationProviders/DefaultAuthenticator')
-cmo.resetUserPassword('weblogic', 'jtonic123')
+read()
 
-# cd('/Security/%s/User/weblogic' % domain_name)
-# cmo.setPassword('jtonic')
+print 'Changing the password'
+
+cd('/SecurityConfiguration/' + domain_name + '/Realms/myrealm/AuthenticationProviders/DefaultAuthenticator')
+cmo.resetUserPassword('weblogic', read())
+
+print 'The password has been changed'
+
 
 execfile("disconnect.py")

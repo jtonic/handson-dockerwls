@@ -7,5 +7,5 @@ echo "WL domain: " $DOMAIN_NAME
 echo "WL admin port: " $ADMIN_PORT
 
 # Setup the JMS
-echo "Run the wlst script to setup the JMS"
+echo "Run the wlst script to change the password for 'weblogic' admin user"
 wlst.sh -skipWLSModuleScanning /u01/oracle/change-password.py

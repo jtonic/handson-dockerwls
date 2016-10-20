@@ -9,6 +9,7 @@ docker cp dockerfiles/12.2.1.1/container-scripts/connect.py wlsadmin:/u01/oracle
 docker cp dockerfiles/12.2.1.1/container-scripts/setup-jms.py wlsadmin:/u01/oracle/
 docker cp dockerfiles/12.2.1.1/container-scripts/deploy-app.py wlsadmin:/u01/oracle/
 docker cp dockerfiles/12.2.1.1/container-scripts/disconnect.py wlsadmin:/u01/oracle/
+docker cp dockerfiles/12.2.1.1/container-scripts/read_password.py wlsadmin:/u01/oracle/
 
 docker cp dockerfiles/12.2.1.1/container-scripts/setup.sh wlsadmin:/u01/oracle/
 

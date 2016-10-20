@@ -1,3 +1,6 @@
+from read_password import read
 print 'Connecting to admin server....'
-connect('weblogic', 'jtonic123', 't3://localhost:8001', adminServerName='AdminServer')
+
+passwd = read()
+connect('weblogic', passwd, 't3://localhost:8001', adminServerName='AdminServer')
 
