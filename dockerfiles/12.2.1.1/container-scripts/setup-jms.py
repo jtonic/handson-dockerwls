@@ -2,17 +2,16 @@
 Author: Antonel Ernest Pazargic
 """
 
-connect("weblogic", "d41d8cd9", "t3://localhost:8001")
+def connect_to_domain(userName, password, url, adminServerName):
+    try:
+        connect(userName, password, url, adminServerName=adminServerName)
+        print 'Successfully connected to wls admin server'
+    except:
+        print 'The domain is unreachable'
+        exit(1)
 
-print('Setting up the JMS stuff...')
-
-servermb=getMBean("Servers/AdminServer")
-
-if servermb is None:
-
-    print '@@@ No server MBean found'
-
-else:
+def setup_jms():
+    print('Setting up the JMS stuff...')
     edit()
     startEdit()
 
@@ -21,7 +20,7 @@ else:
     cmo.createFileStore('MyJMSFileStore')
     cd('/FileStores/MyJMSFileStore')
     cmo.setDirectory('MyJMSFileStore')
-    set('Targets',jarray.array([ObjectName('com.bea:Name=AdminServer,Type=Server')], ObjectName))
+    set('Targets', jarray.array([ObjectName('com.bea:Name=AdminServer,Type=Server')], ObjectName))
     print 'The filestore has been successfully created.'
 
     print 'Creating JMS Server'
@@ -45,18 +44,22 @@ else:
     cd('/')
     cd('/JMSSystemResources/MyJmsSystemResource/JMSResource/MyJmsSystemResource')
     cmo.createConnectionFactory('MyJmsConnectionFactory')
-    cd('/JMSSystemResources/MyJmsSystemResource/JMSResource/MyJmsSystemResource/ConnectionFactories/MyJmsConnectionFactory')
+    cd(
+        '/JMSSystemResources/MyJmsSystemResource/JMSResource/MyJmsSystemResource/ConnectionFactories/MyJmsConnectionFactory')
     cmo.setJNDIName('jms/MyJmsConnectionFactory')
-    #set('SubDeploymentName','MyJmsSubdeployment')
-    cd('/JMSSystemResources/MyJmsSystemResource/JMSResource/MyJmsSystemResource/ConnectionFactories/MyJmsConnectionFactory/SecurityParams/MyJmsConnectionFactory')
+    # set('SubDeploymentName','MyJmsSubdeployment')
+    cd(
+        '/JMSSystemResources/MyJmsSystemResource/JMSResource/MyJmsSystemResource/ConnectionFactories/MyJmsConnectionFactory/SecurityParams/MyJmsConnectionFactory')
     cmo.setAttachJMSXUserId(false)
-    cd('/JMSSystemResources/MyJmsSystemResource/JMSResource/MyJmsSystemResource/ConnectionFactories/MyJmsConnectionFactory/ClientParams/MyJmsConnectionFactory')
+    cd(
+        '/JMSSystemResources/MyJmsSystemResource/JMSResource/MyJmsSystemResource/ConnectionFactories/MyJmsConnectionFactory/ClientParams/MyJmsConnectionFactory')
     cmo.setClientIdPolicy('Restricted')
     cmo.setSubscriptionSharingPolicy('Exclusive')
     cmo.setMessagesMaximum(10)
-    #cd('/JMSSystemResources/MyJmsSystemResource/JMSResource/MyJmsSystemResource/ConnectionFactories/MyJmsConnectionFactory/TransactionParams/MyJmsConnectionFactory')
-    #cmo.setXAConnectionFactoryEnabled(true)
-    cd('/JMSSystemResources/MyJmsSystemResource/JMSResource/MyJmsSystemResource/ConnectionFactories/MyJmsConnectionFactory')
+    # cd('/JMSSystemResources/MyJmsSystemResource/JMSResource/MyJmsSystemResource/ConnectionFactories/MyJmsConnectionFactory/TransactionParams/MyJmsConnectionFactory')
+    # cmo.setXAConnectionFactoryEnabled(true)
+    cd(
+        '/JMSSystemResources/MyJmsSystemResource/JMSResource/MyJmsSystemResource/ConnectionFactories/MyJmsConnectionFactory')
     cmo.setDefaultTargetingEnabled(true)
 
     print 'Creating Queue'
@@ -64,8 +67,8 @@ else:
     cd('/JMSSystemResources/MyJmsSystemResource/JMSResource/MyJmsSystemResource')
     cmo.createQueue('MyJmsQueue')
     cd('/JMSSystemResources/MyJmsSystemResource/JMSResource/MyJmsSystemResource/Queues/MyJmsQueue')
-    set('JNDIName','jms/MyJmsQueue')
-    set('SubDeploymentName','MyJmsSubdeployment')
+    set('JNDIName', 'jms/MyJmsQueue')
+    set('SubDeploymentName', 'MyJmsSubdeployment')
     cd('/JMSSystemResources/MyJmsSystemResource/SubDeployments/MyJmsSubdeployment')
     cmo.addTarget(getMBean('/JMSServers/MyJMSServer'))
 
@@ -74,4 +77,9 @@ else:
     save()
     activate()
 
-exit("y")
+    exit("y")
+
+
+if __name__=='__main__' or __name__== 'main':
+    connect_to_domain('weblogic', 'd41d8cd9', 't3://localhost:8001', adminServerName='AdminServer')
+    # setup_jms()

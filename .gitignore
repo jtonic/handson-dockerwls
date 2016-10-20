@@ -47,6 +47,6 @@ fabric.properties
 .DS_Store
 .gitignore
 .idea/
-wl.iml
+*.iml
 *.zip
 *.swp
