@@ -2,14 +2,6 @@
 Author: Antonel Ernest Pazargic
 """
 
-def connect_to_domain(userName, password, url, adminServerName):
-    try:
-        connect(userName, password, url, adminServerName=adminServerName)
-        print 'Successfully connected to wls admin server'
-    except:
-        print 'The domain is unreachable'
-        exit(1)
-
 def setup_jms():
     print('Setting up the JMS stuff...')
     edit()
@@ -79,7 +71,6 @@ def setup_jms():
 
     exit("y")
 
-
-if __name__=='__main__' or __name__== 'main':
+if __name__ == '__main__' or __name__ == 'main':
     connect_to_domain('weblogic', 'd41d8cd9', 't3://localhost:8001', adminServerName='AdminServer')
     # setup_jms()
