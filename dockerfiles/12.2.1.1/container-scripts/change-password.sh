@@ -8,9 +8,4 @@ echo "WL admin port: " $ADMIN_PORT
 
 # Setup the JMS
 echo "Run the wlst script to setup the JMS"
-wlst.sh -skipWLSModuleScanning /u01/oracle/start-here.py
-
-
-
-
-
+wlst.sh -skipWLSModuleScanning /u01/oracle/change-password.py

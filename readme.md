@@ -50,3 +50,6 @@
 * Create a simple REST service and test it
     * with curl
     * from the WEB UI with AJAX
+
+### Issues
+* The JMS ConnectionFactory's subdeployment and target are not correct

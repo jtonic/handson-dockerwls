@@ -8,7 +8,6 @@ Date:
 
 def app_status(deploymentName, deploymentTarget):
     try:
-        # domainRuntime()
         cd('domainRuntime:/AppRuntimeStateRuntime/AppRuntimeStateRuntime')
         currentState = cmo.getCurrentState(deploymentName, deploymentTarget)
         return currentState
@@ -17,27 +16,27 @@ def app_status(deploymentName, deploymentTarget):
         exit()
 
 
-def deploy_start_app():
+def deploy_start_app(deployment_name, deployment_target):
     print 'Deploying....'
     edit()
     startEdit()
-    deploy('SimpleWar', '/u01/oracle/handson-wls-0.1-SNAPSHOT.war', targets='AdminServer')
+    deploy(deployment_name, '/u01/oracle/handson-wls-0.1-SNAPSHOT.war', targets=deployment_target)
     save()
     activate()
     # startApplication('SimpleWar')
 
 
-def stop_undeploy_app():
+def stop_undeploy_app(deployment_name):
     print 'Stopping and undeploying ....'
-    stopApplication('SimpleWar')
-    undeploy('SimpleWar')
+    stopApplication(deployment_name)
+    undeploy(deployment_name)
 
 
 if __name__ == '__main__' or __name__ == 'main':
-    appName = 'SimpleWar'
-    serverName = 'AdminServer'
-    status = app_status(appName, serverName)
-    print("The status of the application %s on server %s is %s" % (appName, serverName, status))
+    app_name = 'handson-wls'
+    server_name = 'AdminServer'
+    status = app_status(app_name, server_name)
+    print("The status of the application %s on server %s is %s" % (app_name, server_name, status))
     if status is not None:
-        stop_undeploy_app()
-    deploy_start_app()
+        stop_undeploy_app(app_name, server_name)
+    deploy_start_app(app_name, server_name)
